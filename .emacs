@@ -11,6 +11,9 @@
 
 ;; Mediawiki mode
 (require 'mediawiki)
+(defun mediawiki-mode-setup ()
+  (turn-on-flyspell))
+(add-hook 'mediawiki-mode-hook 'mediawiki-mode-setup)
 (setq mediawiki-site-alist
       (quote
        (("PLUG"
