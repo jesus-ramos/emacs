@@ -9,6 +9,15 @@
 (package-initialize)
 (setq url-http-attempt-keepalives nil)
 
+;; Mediawiki mode
+(require 'mediawiki)
+(setq mediawiki-site-alist
+      (quote
+       (("PLUG"
+         "http://plug.cs.fiu.edu/wiki/"
+         "" ""
+         "Main Page"))))
+
 ;; Global Functions
 (defun set-enter-newline-indent ()
   (local-set-key (kbd "RET") 'newline-and-indent))
