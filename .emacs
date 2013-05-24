@@ -163,7 +163,9 @@
 ;; Kill all buffers
 (defun nuke-buffers ()
   (interactive)
-  (mapcar (lambda (x) (kill-buffer x)) (buffer-list)) (delete-other-windows))
+  (mapcar (lambda (x) (kill-buffer x)) (buffer-list))
+  (delete-other-windows)
+  (tramp-cleanup-all-connections))
 
 ;; Emacs server
 (require 'server)
