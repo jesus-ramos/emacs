@@ -291,13 +291,12 @@
   (c-set-offset 'case-label 0)
   (when (called-interactively-p 'any)
     (font-lock-fontify-buffer)))
-;; (defun linux-kernel-setup ()
-;;   (let ((filename (buffer-file-name)))
-;;     (when (and filename
-;;                (string-match (expand-file-name "dir")
-;;                              filename))
-;;       (linux-kernel-style))))
-;; (add-hook 'c-mode-hook 'linux-kernel-setup)
+(defun linux-kernel-setup ()
+  (let ((filename (buffer-file-name)))
+    (when (and filename
+               (string-match "linux" filename))
+      (linux-kernel-style))))
+(add-hook 'c-mode-hook 'linux-kernel-setup)
 
 ;; Fun stuff
 (defun mandelbrot ()
