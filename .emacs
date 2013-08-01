@@ -160,6 +160,13 @@
 (global-hl-line-mode 1)
 (display-time-mode 1)
 
+;; dired settings
+(put 'dired-find-alternate-file 'disabled nil)
+(add-hook 'dired-mode-hook
+          (lambda ()
+            (define-key dired-mode-map (kbd "^")
+              (lambda () (interactive) (find-alternate-file "..")))))
+
 ;; Kill all buffers
 (defun nuke-buffers ()
   (interactive)
