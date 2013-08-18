@@ -244,9 +244,15 @@
 ;; Common C derived buffers, enable auto indent
 (add-hook 'c-mode-common-hook 'set-enter-newline-indent)
 
-;; Enable terminal colors
+;; Terminal settings
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+;; Fix gcc output from ansi-term
+(setq local-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8-unix)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
 
 ;; Generic Emacs Hotkeys
 (global-set-key [f9] 'compile)
@@ -275,6 +281,9 @@
 ;; develock
 (require 'develock)
 
+;; semantic mode
+(semantic-mode 1)
+
 ;; Linux kernel
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
@@ -289,21 +298,21 @@
                         (arglist-cont-nonempty
                          c-lineup-gcc-asm-reg
                          c-lineup-arglist-tabs-only))))
-(defun linux-kernel-style ()
-  (interactive)
-  (c-set-style "linux-tabs-only")
-  (setq indent-tabs-mode t)
-  (setq c-basic-offset 8)
-  (setq tab-width 8)
-  (c-set-offset 'case-label 0)
-  (when (called-interactively-p 'any)
-    (font-lock-fontify-buffer)))
-(defun linux-kernel-setup ()
-  (let ((filename (buffer-file-name)))
-    (when (and filename
-               (string-match "linux" filename))
-      (linux-kernel-style))))
-(add-hook 'c-mode-hook 'linux-kernel-setup)
+;; (defun linux-kernel-style ()
+;;   (interactive)
+;;   (c-set-style "linux-tabs-only")
+;;   (setq indent-tabs-mode t)
+;;   (setq c-basic-offset 8)
+;;   (setq tab-width 8)
+;;   (c-set-offset 'case-label 0)
+;;   (when (called-interactively-p 'any)
+;;     (font-lock-fontify-buffer)))
+;; (defun linux-kernel-setup ()
+;;   (let ((filename (buffer-file-name)))
+;;     (when (and filename
+;;                (string-match "linux" filename))
+;;       (linux-kernel-style))))
+;; (add-hook 'c-mode-hook 'linux-kernel-setup)
 
 ;; Fun stuff
 (defun mandelbrot ()
