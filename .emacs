@@ -135,7 +135,6 @@
 (setq backup-inhibited t)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
-(setq compilation-scroll-output t)
 (if (featurep 'ns-win) (setq system-uses-terminfo nil))
 (if (boundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (boundp 'tool-bar-mode) (tool-bar-mode 0))
