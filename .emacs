@@ -24,6 +24,11 @@
 ;; Global Functions
 (defun set-enter-newline-indent ()
   (local-set-key (kbd "RET") 'newline-and-indent))
+(defun infer-indentation-style ()
+  (let ((space-count (how-many-region (point-min) (point-max) "^  "))
+        (tab-count (how-many-region (point-min) (point-max) "^\t")))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
 ;; TRAMP
 (require 'tramp)
@@ -158,6 +163,7 @@
 (setq-default write-region-inhibit-fsync t)
 (global-hl-line-mode 1)
 (display-time-mode 1)
+(setq compilation-scroll-output t)
 
 ;; dired settings
 (put 'dired-find-alternate-file 'disabled nil)
@@ -216,10 +222,16 @@
   (setq compilation-error-regexp-alist-alist nil))
 
 ;; Generic Indentation rules, no tabs, 4 space indent
-(setq c-default-style "bsd" c-basic-offset 4)
-(c-set-offset 'case-label '+)
-(setq-default indent-tabs-mode nil)
-(setq tab-width 4)
+(defun set-spaces-mode ()
+  (setq c-default-style "bsd" c-basic-offset 4)
+  (c-set-offset 'case-label '+)
+  (setq-default indent-tabs-mode nil)
+  (setq tab-width 4))
+(defun set-tabs-mode ()
+  (setq c-default-style "bsd" c-basic-offset 8)
+  (setq-default indent-tabs-mode t)
+  (setq tab-width 8))
+(set-spaces-mode)
 
 ;; Python
 (setq python-indent 4)
@@ -281,7 +293,7 @@
 (require 'develock)
 
 ;; semantic mode
-(semantic-mode 1)
+;; (semantic-mode 1)
 
 ;; Linux kernel
 (defun c-lineup-arglist-tabs-only (ignored)
@@ -297,20 +309,20 @@
                         (arglist-cont-nonempty
                          c-lineup-gcc-asm-reg
                          c-lineup-arglist-tabs-only))))
-;; (defun linux-kernel-style ()
-;;   (interactive)
-;;   (c-set-style "linux-tabs-only")
-;;   (setq indent-tabs-mode t)
-;;   (setq c-basic-offset 8)
-;;   (setq tab-width 8)
-;;   (c-set-offset 'case-label 0)
-;;   (when (called-interactively-p 'any)
-;;     (font-lock-fontify-buffer)))
-;; (defun linux-kernel-setup ()
-;;   (let ((filename (buffer-file-name)))
-;;     (when (and filename
-;;                (string-match "linux" filename))
-;;       (linux-kernel-style))))
+(defun linux-kernel-style ()
+  (interactive)
+  (c-set-style "linux-tabs-only")
+  (setq indent-tabs-mode t)
+  (setq c-basic-offset 8)
+  (setq tab-width 8)
+  (c-set-offset 'case-label 0)
+  (when (called-interactively-p 'any)
+    (font-lock-fontify-buffer)))
+(defun linux-kernel-setup ()
+  (let ((filename (buffer-file-name)))
+    (when (and filename
+               (string-match "linux" filename))
+      (linux-kernel-style))))
 ;; (add-hook 'c-mode-hook 'linux-kernel-setup)
 
 ;; Fun stuff
