@@ -164,6 +164,7 @@
 (global-hl-line-mode 1)
 (display-time-mode 1)
 (setq compilation-scroll-output t)
+(auto-fill-mode t)
 
 ;; dired settings
 (put 'dired-find-alternate-file 'disabled nil)
@@ -355,3 +356,74 @@
     (insert (format "P1\n%d %d\n" s s))
     (dotimes (y s) (dotimes (x s) (insert (fill-p x y) " "))))
   (image-mode))
+
+;; Google
+(defun google ()
+  "Google the selected region if any, display a query prompt otherwise."
+  (interactive)
+  (browse-url
+   (concat
+    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
+    (url-hexify-string (if mark-active
+                           (buffer-substring (region-beginning) (region-end))
+                         (read-string "Search Google: "))))))
+(global-set-key (kbd "C-x g") 'google)
+
+;; Youtube
+(defun youtube ()
+  "Search YouTube with a query or region if any."
+  (interactive)
+  (browse-url
+   (concat
+    "http://www.youtube.com/results?search_query="
+    (url-hexify-string (if mark-active
+                           (buffer-substring (region-beginning) (region-end))
+                         (read-string "Search YouTube: "))))))
+(global-set-key (kbd "C-x y") 'youtube)
+
+;; org mode
+(require 'org-latex)
+(setq org-export-latex-listings 'minted)
+(add-to-list 'org-export-latex-packages-alist '("" "minted"))
+(setq org-src-fontify-natively t)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (R . t)
+   (sh . t)
+   (emacs-lisp . t)
+   (clojure . t)
+   (C . t)))
+(setq org-todo-keywords
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+
+;; ELISP
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
+;; Word count
+;; Pluralize
+(defun pluralize (word count &optional plural)
+  "Pluralize the word."
+  (if (= count 1)
+      word
+    (if (null plural)
+        (concat word "s")
+      plural)))
+
+;; Count total number of words in current buffer
+(defun count-words-buffer ()
+  "Count total number of words in current buffer."
+  (interactive)
+  (let ((count 0))
+    (save-excursion
+      (goto-char (point-min))
+      (while (< (point) (point-max))
+        (forward-word 1)
+        (setq count (1+ count)))
+      (if (zerop count)
+          (message "buffer has no words.")
+        (message "buffer approximately has %d %s." count
+                 (pluralize "word" count))))))
+(global-set-key (kbd "C-x c") 'count-words-buffer)
