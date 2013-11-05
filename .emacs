@@ -38,14 +38,14 @@
 (setq doc-view-continuous t)
 (setq doc-view-resolution 200)
 
-;; doc comments
+;; doc comments, doesn't work quite right
 (defconst custom-font-lock-keywords
   `((,(lambda (limit)
         (c-font-lock-doc-comments "///"
                                   limit gtkdoc-font-lock-doc-comments)))))
 (setq-default c-doc-comment-style (quote (gtkdoc javadoc autodoc custom)))
 
-;; GLSL
+;; GLSL mode
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
 
@@ -110,10 +110,26 @@
 (require 'linum)
 (global-linum-mode t)
 
-;; org-mode
+;; org mode
+(require 'org-latex)
 (defun org-mode-setup ()
   (turn-on-flyspell))
 (add-hook 'org-mode-hook 'org-mode-setup)
+(setq org-export-latex-listings 'minted)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(add-to-list 'org-latex-packages-alist '("" "listings"))
+(add-to-list 'org-latex-packages-alist '("" "color"))
+(setq org-src-fontify-natively t)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (R . t)
+   (sh . t)
+   (emacs-lisp . t)
+   (clojure . t)
+   (C . t)))
+(setq org-todo-keywords
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 
 ;; Disable line numbers in certain buffers
 (defcustom linum-disabled-modes-list
@@ -178,6 +194,7 @@
   (interactive)
   (mapcar (lambda (x) (kill-buffer x)) (buffer-list))
   (delete-other-windows)
+  ;; Cleanup TRAMP connections to avoid funkiness
   (tramp-cleanup-all-connections))
 
 ;; Emacs server
@@ -193,6 +210,7 @@
   (if (not indent-tabs-mode)
       (untabify (point-min) (point-max))
     (tabify (point-min) (point-max))))
+;; Uniform tabify may get you in trouble sometimes
 (add-hook 'before-save-hook 'uniform-tabify)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -216,23 +234,27 @@
 (define-key global-map [(meta f9)] 'cscope-display-buffer)
 (define-key global-map [(meta f10)] 'cscope-display-buffer-toggle)
 
-;; Speed up compilation output
+;; Speed up compilation output, useful for linux kernel compiles on slow
+;; computers
 (defun speed-up-compiler-output ()
   (interactive)
   (setq compilation-error-regexp-alist nil)
   (setq compilation-error-regexp-alist-alist nil))
 
-;; Generic Indentation rules, no tabs, 4 space indent
+;; Generic Indentation rules
+;; no tabs, 4 space indent
 (defun set-spaces-mode ()
   (setq c-default-style "bsd" c-basic-offset 4)
   (c-set-offset 'case-label '+)
   (setq-default indent-tabs-mode nil)
   (setq tab-width 4))
+;; Tabs, 8 space indent, no indent on case statements
 (defun set-tabs-mode ()
   (setq c-default-style "bsd" c-basic-offset 8)
+  (c-set-offset 'case-label 0)
   (setq-default indent-tabs-mode t)
   (setq tab-width 8))
-(set-spaces-mode)
+(set-spaces-mode) ;; use spaces mode by default
 
 ;; Python
 (setq python-indent 4)
@@ -280,15 +302,21 @@
 
 ;; assembly mode
 (defun asm-mode-setup ()
-  (local-set-key (kbd "RET") 'newline))
+  (local-set-key (kbd "RET") 'newline)) ;; disable newline and enter
 (add-hook 'asm-mode-hook 'asm-mode-setup)
 (setq tab-stop-list
       (quote (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80
                 84 88 92 96 100 104 108 112 116 120)))
 
-;; default browser
-(setq browse-url-generic-program (executable-find "chromium")
-      browse-url-browser-function 'browse-url-generic)
+;; web browser
+(if (eq system-type 'darwin)
+    (setq browse-url-browser-function 'browse-url-default-macosx-browser)
+  (if (or (eq system-type 'ms-dos)
+          (eq system-type 'windows-nt)
+          (eq system-type 'cygwin))
+      (setq browse-url-browser-function 'browse-url-default-windows-browser)
+    (setq browse-url-generic-program (executable-find "chromium")
+          browse-url-browser-function 'browse-url-generic)))
 
 ;; develock
 (require 'develock)
@@ -296,7 +324,7 @@
 ;; semantic mode
 ;; (semantic-mode 1)
 
-;; Linux kernel
+;; Linux kernel style
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
   (let* ((anchor (c-langelem-pos c-syntactic-element))
@@ -380,25 +408,6 @@
                            (buffer-substring (region-beginning) (region-end))
                          (read-string "Search YouTube: "))))))
 (global-set-key (kbd "C-x y") 'youtube)
-
-;; org mode
-(require 'org-latex)
-(require 'org-exp)
-(setq org-export-latex-listings 'minted)
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-(add-to-list 'org-latex-packages-alist '("" "listings"))
-(add-to-list 'org-latex-packages-alist '("" "color"))
-(setq org-src-fontify-natively t)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)
-   (R . t)
-   (sh . t)
-   (emacs-lisp . t)
-   (clojure . t)
-   (C . t)))
-(setq org-todo-keywords
-  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 
 ;; ELISP
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
