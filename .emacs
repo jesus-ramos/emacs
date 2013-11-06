@@ -216,9 +216,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; switch windows
-(defun require-switch_window ()
-  (require 'switch-window))
-(add-hook 'emacs-startup-hook 'require-switch_window)
+(require 'switch-window)
+(global-set-key (kbd "C-x o") 'switch-window)
 
 ;; cscope
 (require 'xcscope)
