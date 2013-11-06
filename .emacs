@@ -25,6 +25,7 @@
 (defun set-enter-newline-indent ()
   (local-set-key (kbd "RET") 'newline-and-indent))
 (defun infer-indentation-style ()
+  (interactive)
   (let ((space-count (how-many-region (point-min) (point-max) "^  "))
         (tab-count (how-many-region (point-min) (point-max) "^\t")))
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
@@ -54,18 +55,18 @@
 (require 'git-blame)
 
 ;; c-eldoc, custom version
-(setq c-eldoc-includes
-      "`pkg-config gtk+-2.0 --cflags` -I./ -I../include -I../../include -I../../../include")
-(load "c-eldoc")
-(defun c-eldoc-setup (map)
-  (c-turn-on-eldoc-mode)
-  (define-key map (kbd "C-c d") 'c-eldoc-force-cache-update))
-(add-hook 'c-mode-hook
-          (lambda ()
-            (c-eldoc-setup c-mode-map)))
-(add-hook 'c++-mode-hook
-          (lambda ()
-            (c-eldoc-setup c++-mode-map)))
+;; (setq c-eldoc-includes
+;;       "`pkg-config gtk+-2.0 --cflags` -I./ -I../include -I../../include -I../../../include")
+;; (load "c-eldoc")
+;; (defun c-eldoc-setup (map)
+;;   (c-turn-on-eldoc-mode)
+;;   (define-key map (kbd "C-c d") 'c-eldoc-force-cache-update))
+;; (add-hook 'c-mode-hook
+;;           (lambda ()
+;;             (c-eldoc-setup c-mode-map)))
+;; (add-hook 'c++-mode-hook
+;;           (lambda ()
+;;             (c-eldoc-setup c++-mode-map)))
 
 ;; LaTeX/Auctex settings
 (require 'tex-site)
@@ -413,3 +414,8 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+(font-lock-add-keywords 'emacs-lisp-mode
+                        '(("add-hook" . font-lock-keyword-face)
+                          ("[a-z]*setq[-a-z]*" . font-lock-keyword-face)
+                          ("add-to-list" . font-lock-keyword-face)
+                          ("^eq$" . font-lock-keyword-face)))

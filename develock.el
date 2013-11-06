@@ -7,10 +7,11 @@
 ;;         Jun'ichi Shiono  <jun@fsas.fujitsu.com>
 ;;         Yasutaka SHINDOH <ring-pub@fan.gr.jp>
 ;;         Oscar Bonilla    <ob@bitmover.com>
+;;         Jesus Ramos      <jesus-ramos@live.com>
 ;; Created: 2001/06/28
-;; Revised: 2012/11/15
+;; Revised: 2013/11/6
 ;; Keywords: font-lock emacs-lisp change-log texinfo c java perl html
-;;           tcl ruby mail news
+;;           tcl ruby mail news python
 
 ;; Develock is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -29,13 +30,12 @@
 
 ;;; Commentary:
 
-;; Develock is a minor mode which provides the ability to make font-
-;; lock highlight leading and trailing whitespace, long lines and
-;; oddities in the file buffer for Lisp modes, ChangeLog mode, Texinfo
-;; mode, C modes, Java mode, Jde-mode , CPerl mode, Perl mode, HTML
-;; modes, some Mail modes, Tcl mode and Ruby mode.  Here is an example
-;; of how to set up your startup file (possibly .emacs) to use
-;; Develock:
+;; Develock is a minor mode which provides the ability to make font- lock
+;; highlight leading and trailing whitespace, long lines and oddities in the
+;; file buffer for Lisp modes, ChangeLog mode, Texinfo mode, C modes, Java mode,
+;; Jde-mode , CPerl mode, Perl mode, HTML modes, some Mail modes, Tcl mode,
+;; Python mode, and Ruby mode.  Here is an example of how to set up your startup
+;; file (possibly .emacs) to use Develock:
 ;;
 ;;(cond ((featurep 'xemacs)
 ;;       (require 'develock)
@@ -71,6 +71,7 @@
 ;;       (add-hook 'html-helper-mode-hook 'turn-on-font-lock)
 ;;       (add-hook 'message-mode-hook 'turn-on-font-lock)
 ;;       (add-hook 'tcl-mode-hook 'turn-on-font-lock)
+;;       (add-hook 'python-mode-hook 'turn-on-font-lock)
 ;;       (add-hook 'ruby-mode-hook 'turn-on-font-lock)))
 ;;
 ;; Note that `jde-mode' activates the `font-lock-mode' by default
@@ -418,7 +419,8 @@ That would be defenseless to spammers."
         'message-mode t
         'cmail-mail-mode t
         'tcl-mode 81
-        'ruby-mode 81)
+        'ruby-mode 81
+        'python-mode 81)
   "Plist of `major-mode's and limitation values for long lines.
 The part of a line that is longer than the limitation value according
 to the `major-mode' is highlighted.  Value `w' means one subtracted
@@ -580,6 +582,9 @@ try the following advice in your startup file.
 (defvar ruby-font-lock-keywords-x nil
   "Extraordinary level font-lock keywords for the Ruby mode.")
 
+(defvar python-font-lock-keywords-x nil
+  "Extraordinary level font-lock keywords for the Python mode.")
+
 (defvar develock-keywords-alist
   '((emacs-lisp-mode lisp-font-lock-keywords-x
                      develock-lisp-font-lock-keywords)
@@ -614,7 +619,9 @@ try the following advice in your startup file.
     (tcl-mode tcl-font-lock-keywords-x
               develock-tcl-font-lock-keywords)
     (ruby-mode ruby-font-lock-keywords-x
-               develock-ruby-font-lock-keywords))
+               develock-ruby-font-lock-keywords)
+    (python-mode python-font-lock-keywords-x
+                 develock-python-font-lock-keywords))
   "*Alist of keyword symbols for major modes.
 Each element should be triple symbols of the following form:
 
@@ -946,6 +953,40 @@ Each element should be triple symbols of the following form:
     ("\\<\\(?:[Ff][Ii][Xx][Mm][Ee]\\|[Tt][Oo][Dd][Oo]\\|[Xx][Xx][Xx]\\)\\(?::\\|\\>\\)"
      (0 'develock-attention t)))
   "Extraordinary level highlighting for the C modes."
+  :type develock-keywords-custom-type
+  :set 'develock-keywords-custom-set
+  :group 'develock
+  :group 'font-lock)
+
+(defcustom develock-python-font-lock-keywords
+  '(;; a long line
+    (develock-find-long-lines
+     (1 'develock-long-line-1 t)
+     (2 'develock-long-line-2 t))
+    ;; long spaces
+    (develock-find-tab-or-long-space
+     (1 'develock-whitespace-2)
+     (2 'develock-whitespace-3 nil t))
+    ;; trailing whitespace
+    ("[^\t\n ]\\([\t ]+\\)$"
+     (1 'develock-whitespace-1 t))
+    ;; spaces before tabs
+    ("\\( +\\)\\(\t+\\)"
+     (1 'develock-whitespace-1 t)
+     (2 'develock-whitespace-2 t))
+    ;; tab space tab
+    ("\\(\t\\) \t"
+     (1 'develock-whitespace-2 append))
+    ;; only tabs or spaces in the line
+    ("^[\t ]+$"
+     (0 'develock-whitespace-2 append))
+    ;; reachable E-mail addresses
+    ("<?[-+.0-9A-Z_a-z]+@[-0-9A-Z_a-z]+\\(\\.[-0-9A-Z_a-z]+\\)+>?"
+     (0 'develock-reachable-mail-address t))
+    ;; things to be paid attention
+    ("\\<\\(?:[Ff][Ii][Xx][Mm][Ee]\\|[Tt][Oo][Dd][Oo]\\)\\(?::\\|\\>\\)"
+     (0 'develock-attention t)))
+  "Extraordinary level highlighting for the Python mode."
   :type develock-keywords-custom-type
   :set 'develock-keywords-custom-set
   :group 'develock
