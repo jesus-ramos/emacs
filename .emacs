@@ -7,6 +7,7 @@
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
+(setq package-enable-at-startup nil)
 (setq url-http-attempt-keepalives nil)
 
 ;; Mediawiki mode
@@ -182,6 +183,10 @@
 (display-time-mode 1)
 (setq compilation-scroll-output t)
 (auto-fill-mode t)
+
+;; Fix buffer naming
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward)
 
 ;; dired settings
 (put 'dired-find-alternate-file 'disabled nil)
@@ -418,3 +423,7 @@
                           ("[a-z]*setq[-a-z]*" . font-lock-keyword-face)
                           ("add-to-list" . font-lock-keyword-face)
                           ("^eq$" . font-lock-keyword-face)))
+
+;; smart mode line
+(setq sml/theme 'dark)
+(sml/setup)
