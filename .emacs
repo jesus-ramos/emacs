@@ -23,8 +23,6 @@
          "Main Page"))))
 
 ;; Global Functions
-(defun set-enter-newline-indent ()
-  (local-set-key (kbd "RET") 'newline-and-indent))
 (defun infer-indentation-style ()
   (interactive)
   (let ((space-count (how-many-region (point-min) (point-max) "^  "))
@@ -74,8 +72,7 @@
 (defun latex-mode-setup ()
   (latex-math-mode)
   (turn-on-reftex)
-  (turn-on-flyspell)
-  (set-enter-newline-indent))
+  (turn-on-flyspell))
 (add-hook 'LaTeX-mode-hook 'latex-mode-setup)
 (setq LaTeX-item-indent 0)
 (setq reftex-plug-into-AUCTeX t)
@@ -260,6 +257,7 @@
   (setq-default indent-tabs-mode t)
   (setq tab-width 8))
 (set-spaces-mode) ;; use spaces mode by default
+(electric-indent-mode +1)
 
 ;; Python
 (setq python-indent 4)
@@ -279,9 +277,6 @@
 ;; color theme
 (add-to-list 'custom-theme-load-path "~/Documents/emacs")
 (load-theme 'midnight t)
-
-;; Common C derived buffers, enable auto indent
-(add-hook 'c-mode-common-hook 'set-enter-newline-indent)
 
 ;; Terminal settings
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
@@ -305,10 +300,7 @@
 (setq erc-server "plug.cs.fiu.edu")
 (setq erc-nick "jesus")
 
-;; assembly mode
-(defun asm-mode-setup ()
-  (local-set-key (kbd "RET") 'newline)) ;; disable newline and enter
-(add-hook 'asm-mode-hook 'asm-mode-setup)
+;; ASM mode
 (setq tab-stop-list
       (quote (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80
                 84 88 92 96 100 104 108 112 116 120)))
