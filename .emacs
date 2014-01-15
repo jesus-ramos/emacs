@@ -128,7 +128,11 @@
    (clojure . t)
    (C . t)))
 (setq org-todo-keywords
-  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+      '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
+(setq org-todo-keyword-faces '(("CANCELED" . "red")))
+(setq org-log-done t)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
 
 ;; Disable line numbers in certain buffers
 (defcustom linum-disabled-modes-list
