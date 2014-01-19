@@ -3,12 +3,42 @@
 ;; Packages
 ;; M-x package-refresh-contents to update package database
 (require 'package)
+(require 'cl)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (package-initialize)
 (setq package-enable-at-startup nil)
 (setq url-http-attempt-keepalives nil)
+(defvar packages-list
+  '(auctex
+    dash
+    git-commit-mode
+    git-rebase-mode
+    glsl-mode
+    gnuplot
+    gnuplot-mode
+    htmlize
+    impatient-mode
+    magit
+    mediawiki
+    org
+    popup
+    simple-httpd
+    smart-mode-line
+    switch-window)
+  "List of required packages for emacs config")
+(defun package-not-installed ()
+  (loop for p in packages-list
+        when (not (package-installed-p p)) do (return t)
+        finally (return nil)))
+(when (package-not-installed)
+  (message "%s" "Getting latest version of all packages")
+  (package-refresh-contents)
+  (message "%s" "Done")
+  (dolist (p packages-list)
+    (when (not (package-installed-p p))
+      (package-install p))))
 
 ;; Mediawiki mode
 (require 'mediawiki)
@@ -414,11 +444,6 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
-(font-lock-add-keywords 'emacs-lisp-mode
-                        '(("add-hook" . font-lock-keyword-face)
-                          ("[a-z]*setq[-a-z]*" . font-lock-keyword-face)
-                          ("add-to-list" . font-lock-keyword-face)
-                          ("^eq$" . font-lock-keyword-face)))
 
 ;; smart mode line
 (setq sml/theme 'dark)
