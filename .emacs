@@ -12,7 +12,6 @@
 (setq url-http-attempt-keepalives nil)
 (defvar packages-list
   '(auctex
-    dash
     git-commit-mode
     git-rebase-mode
     glsl-mode
@@ -23,10 +22,10 @@
     magit
     mediawiki
     org
-    popup
     simple-httpd
     smart-mode-line
-    switch-window)
+    switch-window
+    zlc)
   "List of required packages for emacs config")
 (defun package-not-installed ()
   (loop for p in packages-list
