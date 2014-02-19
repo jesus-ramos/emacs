@@ -328,10 +328,20 @@
 (global-set-key (kbd "S-C-<down>") 'shrink-window)
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
-;; Emacs IRC
+;; Emacs IRC - ERC
 (setq erc-auto-query 'buffer)
-(setq erc-server "plug.cs.fiu.edu")
+(setq erc-server-history-list '("plug.cs.fiu.edu"
+                                "irc.snoonet.org"))
 (setq erc-nick "jesus")
+(defmacro def-erc-connect (command server port nick)
+  (fset command
+        `(lambda (arg)
+           (interactive "p")
+           (if (not (= 1 arg))
+               (call-interactively 'erc)
+             (erc :server ,server :port ,port :nick ,nick)))))
+(def-erc-connect erc-plug "plug.cs.fiu.edu" 6667 "jesus")
+(def-erc-connect erc-reddit "irc.snoonet.org" 6667 "bio_endio")
 
 ;; ASM mode
 (setq tab-stop-list
