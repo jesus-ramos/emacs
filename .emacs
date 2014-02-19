@@ -329,10 +329,16 @@
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 ;; Emacs IRC - ERC
+(require erc-fill)
+(erc-fill-mode t)
+(setq erc-nick "jesus")
+(setq erc-user-full-name "Jesus Ramos")
 (setq erc-auto-query 'buffer)
 (setq erc-server-history-list '("plug.cs.fiu.edu"
                                 "irc.snoonet.org"))
-(setq erc-nick "jesus")
+(setq erc-autojoin-channels-alist
+      '(("plug.cs.fiu.edu" "#chat")
+        ("irc.snoonet.org" "#warhammer")))
 (defmacro def-erc-connect (command server port nick)
   (fset command
         `(lambda (arg)
@@ -342,6 +348,10 @@
              (erc :server ,server :port ,port :nick ,nick)))))
 (def-erc-connect erc-plug "plug.cs.fiu.edu" 6667 "jesus")
 (def-erc-connect erc-reddit "irc.snoonet.org" 6667 "bio_endio")
+(defun my-erc-connect ()
+  (interactive)
+  (erc-plug)
+  (erc-reddit))
 
 ;; ASM mode
 (setq tab-stop-list
