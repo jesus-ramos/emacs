@@ -9,8 +9,12 @@
  '(region ((t (:background "DarkBlue"))))
  '(fringe ((t (:background "#252323"))))
  '(border-color ((t (:background "black"))))
+
+ ;; line highlighting
  '(highlight-current-line-face ((t (:background "grey12"))))
  '(hl-line ((t (:background "#252323"))))
+
+ ;; Mouse and cursor
  '(mouse ((t (:foreground "black" :background "DarkRed"))))
  '(cursor ((t (:foreground "black" :background "green"))))
 
@@ -27,6 +31,7 @@
  ;; latex
  '(font-latex-sedate-face ((t (:foreground "cyan"))))
 
+ ;; code editing faces
  '(font-lock-builtin-face ((t (:foreground "SkyBlue"))))
  '(font-lock-comment-face ((t (:italic t :foreground "grey60"))))
  '(font-lock-comment-delimiter-face ((t (:forground "grey60"))))
@@ -49,18 +54,16 @@
  '(modeline-mousable ((t (:background "#a5baf1" :foreground "black"))))
  '(modeline-mousable-minor-mode ((t (:background "#a5baf1" :foreground "#000000"))))
 
+ ;; Selection
  '(primary-selection ((t (:background "#3B3B3F"))))
  '(isearch ((t (:background "#555555"))))
  '(zmacs-region ((t (:background "#555577"))))
  '(secondary-selection ((t (:background "#545459"))))
 
- ;; flymake
- '(flymake-errline ((t (:background "LightSalmon" :foreground "#000000"))))
- '(flymake-warnline ((t (:background "LightSteelBlue" :foreground "#000000"))))
-
  ;; mini buffer
  '(minibuffer-prompt ((t (:bold t :foreground "DarkRed"))))
 
+ ;; Underline and italics
  '(underline ((t (:underline t))))
  '(italic ((t (:italic)))))
 

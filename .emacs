@@ -329,8 +329,6 @@
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 ;; Emacs IRC - ERC
-(require erc-fill)
-(erc-fill-mode t)
 (setq erc-nick "jesus")
 (setq erc-user-full-name "Jesus Ramos")
 (setq erc-auto-query 'buffer)
@@ -338,7 +336,7 @@
                                 "irc.snoonet.org"))
 (setq erc-autojoin-channels-alist
       '(("plug.cs.fiu.edu" "#chat")
-        ("irc.snoonet.org" "#warhammer")))
+        ("snoonet" "#warhammer")))
 (defmacro def-erc-connect (command server port nick)
   (fset command
         `(lambda (arg)
@@ -372,7 +370,15 @@
 (require 'develock)
 
 ;; semantic mode
+;; (require 'semantic/sb)
 ;; (semantic-mode 1)
+;; (global-semantic-highlight-func-mode 1)
+;; (global-semantic-stickyfunc-mode 1)
+;; (global-semantic-decoration-mode 1)
+;; (global-semantic-idle-summary-mode 1)
+;; (global-semantic-idle-completions-mode 1)
+;; (setq clones-include "/ssh:jramos@ringzero:/home/jramos/clone/include/")
+;; (semantic-add-system-include clones-include 'c-mode)
 
 ;; Linux kernel style
 (defun c-lineup-arglist-tabs-only (ignored)
