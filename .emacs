@@ -293,6 +293,9 @@
 (electric-indent-mode +1)
 
 ;; Python
+(defun python-mode-setup ()
+  (set (make-local-variable 'electric-indent-mode) nil))
+(add-hook 'python-mode-hook 'python-mode-setup)
 (setq python-indent 4)
 
 ;; impatient mode
