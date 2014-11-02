@@ -1,3 +1,8 @@
+;; Because smart mode line loads it's own theme this is required for Emacs 24
+(setq custom-safe-themes
+      (quote
+       ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))) ;; Smart mode line theme
+
 (add-to-list 'load-path "~/Documents/emacs/")
 
 ;; Packages
@@ -139,14 +144,9 @@
 (global-linum-mode t)
 
 ;; org mode
-(require 'org-latex)
 (defun org-mode-setup ()
   (turn-on-flyspell))
 (add-hook 'org-mode-hook 'org-mode-setup)
-(setq org-export-latex-listings 'minted)
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-(add-to-list 'org-latex-packages-alist '("" "listings"))
-(add-to-list 'org-latex-packages-alist '("" "color"))
 (setq org-src-fontify-natively t)
 (org-babel-do-load-languages
  'org-babel-load-languages
