@@ -282,13 +282,13 @@
   (setq c-default-style "bsd" c-basic-offset 4)
   (c-set-offset 'case-label '+)
   (setq-default indent-tabs-mode nil)
-  (setq tab-width 4))
+  (setq-default tab-width 4))
 ;; Tabs, 8 space indent, no indent on case statements
 (defun set-tabs-mode ()
   (setq c-default-style "bsd" c-basic-offset 8)
   (c-set-offset 'case-label 0)
   (setq-default indent-tabs-mode t)
-  (setq tab-width 8))
+  (setq-default tab-width 8))
 (set-spaces-mode) ;; use spaces mode by default
 (electric-indent-mode +1)
 
@@ -355,6 +355,10 @@
 (def-erc-connect erc-sf4 "chat.thinstack.net" 6667 "bio_endio")
 
 ;; ASM mode
+(defun asm-mode-setup ()
+  (set (make-local-variable 'electric-indent-mode) nil)
+  (local-set-key (kbd "RET") 'newline))
+(add-hook 'asm-mode-hook 'asm-mode-setup)
 (setq tab-stop-list
       (quote (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80
                 84 88 92 96 100 104 108 112 116 120)))
