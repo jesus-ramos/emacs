@@ -39,6 +39,7 @@
 ;; TRAMP
 (require 'tramp)
 (setq tramp-default-method "ssh")
+(setq tramp-use-ssh-controlmaster-options nil)
 
 ;; DocView
 (setq doc-view-continuous t)
