@@ -15,34 +15,6 @@
 (package-initialize)
 (setq package-enable-at-startup nil)
 (setq url-http-attempt-keepalives nil)
-(defvar packages-list
-  '(auctex
-    git-commit-mode
-    git-rebase-mode
-    glsl-mode
-    gnuplot
-    gnuplot-mode
-    htmlize
-    impatient-mode
-    magit
-    mediawiki
-    org
-    simple-httpd
-    smart-mode-line
-    switch-window
-    zlc)
-  "List of required packages for emacs config")
-(defun package-not-installed ()
-  (loop for p in packages-list
-        when (not (package-installed-p p)) do (return t)
-        finally (return nil)))
-(when (package-not-installed)
-  (message "%s" "Getting latest version of all packages")
-  (package-refresh-contents)
-  (message "%s" "Done")
-  (dolist (p packages-list)
-    (when (not (package-installed-p p))
-      (package-install p))))
 
 ;; Mediawiki mode
 (require 'mediawiki)
@@ -85,21 +57,6 @@
 
 ;; Git
 (require 'git)
-(require 'git-blame)
-
-;; c-eldoc, custom version
-;; (setq c-eldoc-includes
-;;       "`pkg-config gtk+-2.0 --cflags` -I./ -I../include -I../../include -I../../../include")
-;; (load "c-eldoc")
-;; (defun c-eldoc-setup (map)
-;;   (c-turn-on-eldoc-mode)
-;;   (define-key map (kbd "C-c d") 'c-eldoc-force-cache-update))
-;; (add-hook 'c-mode-hook
-;;           (lambda ()
-;;             (c-eldoc-setup c-mode-map)))
-;; (add-hook 'c++-mode-hook
-;;           (lambda ()
-;;             (c-eldoc-setup c++-mode-map)))
 
 ;; LaTeX/Auctex settings
 (require 'tex-site)
@@ -256,18 +213,6 @@
 
 ;; cscope
 (require 'xcscope)
-(define-key global-map [(control f3)] 'cscope-set-initial-directory)
-(define-key global-map [(control f4)] 'cscope-unset-initial-directory)
-(define-key global-map [(control f5)] 'cscope-find-this-symbol)
-(define-key global-map [(control f6)] 'cscope-find-global-definition)
-(define-key global-map [(control f7)] 'cscope-find-global-definition-no-prompting)
-(define-key global-map [(control f8)] 'cscope-pop-mark)
-(define-key global-map [(control f9)] 'cscope-next-symbol)
-(define-key global-map [(control f10)] 'cscope-next-file)
-(define-key global-map [(control f11)] 'cscope-prev-symbol)
-(define-key global-map [(control f12)] 'cscope-prev-file)
-(define-key global-map [(meta f9)] 'cscope-display-buffer)
-(define-key global-map [(meta f10)] 'cscope-display-buffer-toggle)
 
 ;; Speed up compilation output, useful for linux kernel compiles on slow
 ;; computers
@@ -375,17 +320,6 @@
 
 ;; develock
 (require 'develock)
-
-;; semantic mode
-;; (require 'semantic/sb)
-;; (semantic-mode 1)
-;; (global-semantic-highlight-func-mode 1)
-;; (global-semantic-stickyfunc-mode 1)
-;; (global-semantic-decoration-mode 1)
-;; (global-semantic-idle-summary-mode 1)
-;; (global-semantic-idle-completions-mode 1)
-;; (setq clones-include "/ssh:jramos@ringzero:/home/jramos/clone/include/")
-;; (semantic-add-system-include clones-include 'c-mode)
 
 ;; Linux kernel style
 (defun c-lineup-arglist-tabs-only (ignored)
