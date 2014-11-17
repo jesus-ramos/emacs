@@ -35,7 +35,6 @@
  '(font-lock-builtin-face ((t (:foreground "SkyBlue"))))
  '(font-lock-comment-face ((t (:italic t :foreground "grey60"))))
  '(font-lock-comment-delimiter-face ((t (:forground "grey60"))))
- '(font-lock-constant-face ((t (:forground "#1AB0B0"))))
  '(font-lock-function-name-face ((t (:foreground "SlateBlue"))))
  '(font-lock-keyword-face ((t (:foreground "Cyan"))))
  '(font-lock-preprocessor-face ((t (:foreground "#9932CC"))))
