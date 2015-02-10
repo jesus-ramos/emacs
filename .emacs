@@ -117,7 +117,6 @@
 (setq org-todo-keywords
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
 (setq org-todo-keyword-faces '(("CANCELED" . "red")))
-(setq org-log-done t)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 
@@ -205,8 +204,8 @@
       (untabify (point-min) (point-max))
     (tabify (point-min) (point-max))))
 ;; Uniform tabify may get you in trouble sometimes
-(add-hook 'before-save-hook 'uniform-tabify)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'uniform-tabify)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; switch windows
 (require 'switch-window)
