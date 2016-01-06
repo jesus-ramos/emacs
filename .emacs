@@ -1,7 +1,7 @@
 ;; Because smart mode line loads it's own theme this is required for Emacs 24
 (setq custom-safe-themes
       (quote
-       ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))) ;; Smart mode line theme
+       ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
 
 (add-to-list 'load-path "~/Documents/emacs/")
 
@@ -168,8 +168,16 @@
 (setq-default write-region-inhibit-fsync t)
 (global-hl-line-mode 1)
 (display-time-mode 1)
-(setq compilation-scroll-output t)
 (auto-fill-mode t)
+
+;; Compilation settings
+(setq compilation-scroll-output t)
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; Fix buffer naming
 (require 'uniquify)
@@ -213,6 +221,9 @@
 
 ;; cscope
 (require 'xcscope)
+(when (eq system-type 'darwin)
+  (setq exec-path (append '("/usr/local/bin")
+                          exec-path)))
 
 ;; Speed up compilation output, useful for linux kernel compiles on slow
 ;; computers
