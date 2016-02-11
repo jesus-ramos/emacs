@@ -41,6 +41,14 @@
 (setq tramp-default-method "ssh")
 (setq tramp-use-ssh-controlmaster-options nil)
 
+;; Golang
+(setenv "GOPATH" (file-truename "~/Documents/gocode"))
+(defun my-go-mode-hook ()
+  (set (make-local-variable 'compile-command) "go build")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (local-set-key (kbd "M-.") 'godef-jump))
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
 ;; DocView
 (setq doc-view-continuous t)
 (setq doc-view-resolution 200)
@@ -212,8 +220,8 @@
       (untabify (point-min) (point-max))
     (tabify (point-min) (point-max))))
 ;; Uniform tabify may get you in trouble sometimes
-;; (add-hook 'before-save-hook 'uniform-tabify)
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'uniform-tabify)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; switch windows
 (require 'switch-window)
@@ -221,9 +229,12 @@
 
 ;; cscope
 (require 'xcscope)
+
+;; OSX workarounds
 (when (eq system-type 'darwin)
   (setq exec-path (append '("/usr/local/bin")
-                          exec-path)))
+                          exec-path))
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
 
 ;; Speed up compilation output, useful for linux kernel compiles on slow
 ;; computers
@@ -235,12 +246,14 @@
 ;; Generic Indentation rules
 ;; no tabs, 4 space indent
 (defun set-spaces-mode ()
+  (interactive)
   (setq c-default-style "bsd" c-basic-offset 4)
   (c-set-offset 'case-label '+)
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4))
 ;; Tabs, 8 space indent, no indent on case statements
 (defun set-tabs-mode ()
+  (interactive)
   (setq c-default-style "bsd" c-basic-offset 8)
   (c-set-offset 'case-label 0)
   (setq-default indent-tabs-mode t)
