@@ -43,6 +43,8 @@
 
 ;; Golang
 (setenv "GOPATH" (file-truename "~/Documents/gocode"))
+(setenv "PATH" (concat (getenv "PATH") (substitute-in-file-name ":$GOPATH/bin")))
+(add-to-list 'exec-path (substitute-in-file-name "$GOPATH/bin"))
 (defun my-go-mode-hook ()
   (set (make-local-variable 'compile-command) "go build")
   (add-hook 'before-save-hook 'gofmt-before-save)
