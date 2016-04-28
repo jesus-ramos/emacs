@@ -45,10 +45,17 @@
 (setenv "GOPATH" (file-truename "~/Documents/gocode"))
 (setenv "PATH" (concat (getenv "PATH") (substitute-in-file-name ":$GOPATH/bin")))
 (add-to-list 'exec-path (substitute-in-file-name "$GOPATH/bin"))
+(with-eval-after-load 'go-mode
+  (require 'go-autocomplete)
+  (require 'auto-complete-config)
+  (ac-config-default)
+  (define-key ac-completing-map [return] nil)
+  (define-key ac-completing-map "\r" nil))
 (defun my-go-mode-hook ()
   (set (make-local-variable 'compile-command) "go build")
   (add-hook 'before-save-hook 'gofmt-before-save)
-  (local-set-key (kbd "M-.") 'godef-jump))
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
 ;; DocView
@@ -311,7 +318,8 @@
 (setq erc-autojoin-channels-alist
       '(("plug.cs.fiu.edu" "#chat")
         ("snoonet" "#warhammer")
-        ("snoonet" "#streetfighter")))
+        ("snoonet" "#streetfighter")
+        ("snoonet" "#minipainting")))
 (defmacro def-erc-connect (command server port nick)
   (fset command
         `(lambda (arg)
