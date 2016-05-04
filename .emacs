@@ -319,7 +319,8 @@
       '(("plug.cs.fiu.edu" "#chat")
         ("snoonet" "#warhammer")
         ("snoonet" "#streetfighter")
-        ("snoonet" "#minipainting")))
+        ("snoonet" "#minipainting")
+        ("thinstack" "#evendayman")))
 (defmacro def-erc-connect (command server port nick)
   (fset command
         `(lambda (arg)
@@ -329,6 +330,7 @@
              (erc :server ,server :port ,port :nick ,nick)))))
 (def-erc-connect erc-plug "plug.cs.fiu.edu" 6667 "jesus")
 (def-erc-connect erc-reddit "irc.snoonet.org" 6667 "bio_endio")
+(def-erc-connect erc-thinstack "jarvis.thinstack.net" 6667 "bio_endio")
 
 ;; ASM mode
 (defun asm-mode-setup ()
