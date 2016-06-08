@@ -238,6 +238,7 @@
 
 ;; cscope
 (require 'xcscope)
+(setq exec-path (append '("~/Documents/emacs") exec-path))
 
 ;; OSX workarounds
 (when (eq system-type 'darwin)
