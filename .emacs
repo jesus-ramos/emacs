@@ -383,7 +383,7 @@
     (when (and filename
                (string-match "linux" filename))
       (linux-kernel-style))))
-;; (add-hook 'c-mode-hook 'linux-kernel-setup)
+(add-hook 'c-mode-hook 'linux-kernel-setup)
 
 ;; Fun stuff
 (defun mandelbrot ()
