@@ -16,18 +16,6 @@
 (setq package-enable-at-startup nil)
 (setq url-http-attempt-keepalives nil)
 
-;; Mediawiki mode
-(require 'mediawiki)
-(defun mediawiki-mode-setup ()
-  (turn-on-flyspell))
-(add-hook 'mediawiki-mode-hook 'mediawiki-mode-setup)
-(setq mediawiki-site-alist
-      (quote
-       (("PLUG"
-         "http://plug.cs.fiu.edu/wiki/"
-         "jesusramos" ""
-         "Main Page"))))
-
 ;; Global Functions
 (defun infer-indentation-style ()
   (interactive)
@@ -52,7 +40,7 @@
   (define-key ac-completing-map [return] nil)
   (define-key ac-completing-map "\r" nil))
 (defun my-go-mode-hook ()
-  (set (make-local-variable 'compile-command) "go build")
+  (set (make-local-variable 'compile-command) "go install")
   (add-hook 'before-save-hook 'gofmt-before-save)
   (local-set-key (kbd "M-.") 'godef-jump)
   (auto-complete-mode 1))
@@ -246,13 +234,6 @@
                           exec-path))
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin")))
 
-;; Speed up compilation output, useful for linux kernel compiles on slow
-;; computers
-(defun speed-up-compiler-output ()
-  (interactive)
-  (setq compilation-error-regexp-alist nil)
-  (setq compilation-error-regexp-alist-alist nil))
-
 ;; Generic Indentation rules
 ;; no tabs, 4 space indent
 (defun set-spaces-mode ()
@@ -276,14 +257,6 @@
   (set (make-local-variable 'electric-indent-mode) nil))
 (add-hook 'python-mode-hook 'python-mode-setup)
 (setq python-indent 4)
-
-;; impatient mode
-;; http://localhost:8080/imp/ to see impatient mode buffers
-(defun start-impatient-mode ()
-  (httpd-start)
-  (impatient-mode))
-(add-hook 'html-mode-hook 'start-impatient-mode)
-(add-hook 'css-mode-hook 'start-impatient-mode)
 
 ;; highlight matching parentheses
 (show-paren-mode 1)
