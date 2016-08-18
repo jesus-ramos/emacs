@@ -290,7 +290,7 @@
 (setq erc-server-history-list '("plug.cs.fiu.edu"
                                 "irc.snoonet.org"))
 (setq erc-autojoin-channels-alist
-      '(("plug.cs.fiu.edu" "#chat")
+      '(("freenode" "#NAGlug")
         ("snoonet" "#warhammer")
         ("snoonet" "#streetfighter")
         ("snoonet" "#minipainting")
@@ -302,7 +302,7 @@
            (if (not (= 1 arg))
                (call-interactively 'erc)
              (erc :server ,server :port ,port :nick ,nick)))))
-(def-erc-connect erc-plug "plug.cs.fiu.edu" 6667 "jesus")
+(def-erc-connect erc-plug "chat.freenode.net" 6667 "NAGjesus")
 (def-erc-connect erc-reddit "irc.snoonet.org" 6667 "bio_endio")
 (def-erc-connect erc-thinstack "jarvis.thinstack.net" 6667 "bio_endio")
 
