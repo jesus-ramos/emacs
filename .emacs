@@ -288,13 +288,14 @@
 (setq erc-user-full-name "Jesus Ramos")
 (setq erc-auto-query 'buffer)
 (setq erc-server-history-list '("plug.cs.fiu.edu"
-                                "irc.snoonet.org"))
+                                "irc.snoonet.org"
+                                "irc.quakenet.org"))
 (setq erc-autojoin-channels-alist
       '(("freenode" "#NAGlug")
         ("snoonet" "#warhammer")
         ("snoonet" "#streetfighter")
         ("snoonet" "#minipainting")
-        ("thinstack" "#evendayman")))
+        ("quakenet" "#evendayman")))
 (defmacro def-erc-connect (command server port nick)
   (fset command
         `(lambda (arg)
@@ -304,7 +305,7 @@
              (erc :server ,server :port ,port :nick ,nick)))))
 (def-erc-connect erc-plug "chat.freenode.net" 6667 "NAGjesus")
 (def-erc-connect erc-reddit "irc.snoonet.org" 6667 "bio_endio")
-(def-erc-connect erc-thinstack "jarvis.thinstack.net" 6667 "bio_endio")
+(def-erc-connect erc-quakenet "irc.quakenet.org" 6667 "bio_endio")
 
 ;; ASM mode
 (defun asm-mode-setup ()
