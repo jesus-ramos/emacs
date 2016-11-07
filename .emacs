@@ -46,6 +46,11 @@
   (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
+;; conf-mode
+(defun my-conf-mode-hook ()
+  (local-set-key (kbd "TAB") 'tab-to-tab-stop))
+(add-hook 'conf-mode-hook 'my-conf-mode-hook)
+
 ;; DocView
 (setq doc-view-continuous t)
 (setq doc-view-resolution 200)
@@ -295,7 +300,7 @@
         ("snoonet" "#warhammer")
         ("snoonet" "#streetfighter")
         ("snoonet" "#minipainting")
-        ("quakenet" "#evendayman")))
+        ("quakenet" "#nodaymen")))
 (defmacro def-erc-connect (command server port nick)
   (fset command
         `(lambda (arg)
