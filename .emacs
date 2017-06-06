@@ -43,7 +43,9 @@
   (set (make-local-variable 'compile-command) "go install")
   (add-hook 'before-save-hook 'gofmt-before-save)
   (local-set-key (kbd "M-.") 'godef-jump)
-  (auto-complete-mode 1))
+  (auto-complete-mode 1)
+  (remove-hook 'before-save-hook 'uniform-tabify)
+  (remove-hook 'before-save-hook 'delete-trailing-whitespace))
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
 ;; conf-mode
@@ -173,7 +175,6 @@
 (setq x-stretch-cursor t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (savehist-mode t)
-(setq-default require-final-newline t)
 (size-indication-mode)
 (setq-default write-region-inhibit-fsync t)
 (global-hl-line-mode 1)
@@ -427,3 +428,7 @@
 ;; smart mode line
 (setq sml/theme 'dark)
 (sml/setup)
+
+;; diff-mode
+(add-hook 'diff-mode-hook
+          (lambda () (diff-auto-refine-mode -1)))
