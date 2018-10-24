@@ -68,9 +68,6 @@
 (add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
 
-;; Git
-(require 'git)
-
 ;; LaTeX/Auctex settings
 (require 'tex-site)
 (defun latex-mode-setup ()
