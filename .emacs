@@ -119,7 +119,7 @@
  'org-babel-load-languages
  '((python . t)
    (R . t)
-   (sh . t)
+   (shell . t)
    (emacs-lisp . t)
    (clojure . t)
    (C . t)))
@@ -286,30 +286,6 @@
 (global-set-key (kbd "S-C-<down>") 'shrink-window)
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
-;; Emacs IRC - ERC
-(setq erc-nick "jesus")
-(setq erc-user-full-name "Jesus Ramos")
-(setq erc-auto-query 'buffer)
-(setq erc-server-history-list '("plug.cs.fiu.edu"
-                                "irc.snoonet.org"
-                                "irc.quakenet.org"))
-(setq erc-autojoin-channels-alist
-      '(("freenode" "#NAGlug")
-        ("snoonet" "#warhammer")
-        ("snoonet" "#streetfighter")
-        ("snoonet" "#minipainting")
-        ("quakenet" "#nodaymen")))
-(defmacro def-erc-connect (command server port nick)
-  (fset command
-        `(lambda (arg)
-           (interactive "p")
-           (if (not (= 1 arg))
-               (call-interactively 'erc)
-             (erc :server ,server :port ,port :nick ,nick)))))
-(def-erc-connect erc-plug "chat.freenode.net" 6667 "NAGjesus")
-(def-erc-connect erc-reddit "irc.snoonet.org" 6667 "bio_endio")
-(def-erc-connect erc-quakenet "irc.quakenet.org" 6667 "bio_endio")
-
 ;; ASM mode
 (defun asm-mode-setup ()
   (set (make-local-variable 'electric-indent-mode) nil)
@@ -358,7 +334,7 @@
 (defun linux-kernel-setup ()
   (let ((filename (buffer-file-name)))
     (when (and filename
-               (string-match "linux" filename))
+               (string-match "linux|datera-kmods" filename))
       (linux-kernel-style))))
 (add-hook 'c-mode-hook 'linux-kernel-setup)
 
@@ -429,3 +405,14 @@
 ;; diff-mode
 (add-hook 'diff-mode-hook
           (lambda () (diff-auto-refine-mode -1)))
+
+(defun revert-all-buffers ()
+  (interactive)
+  (dolist (buf (buffer-list))
+    (let ((filename (buffer-file-name buf)))
+      (when (and filename (not (buffer-modified-p buf)))
+        (if (file-readable-p filename)
+            (with-current-buffer buf
+              (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+          (let (kill-buffer-query-functions)
+            (kill-buffer buf)))))))
