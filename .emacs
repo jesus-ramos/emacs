@@ -178,6 +178,9 @@
 (display-time-mode 1)
 (auto-fill-mode t)
 
+;; show function header for long functions
+(which-function-mode 1)
+
 ;; Compilation settings
 (setq compilation-scroll-output t)
 (require 'ansi-color)
@@ -334,7 +337,7 @@
 (defun linux-kernel-setup ()
   (let ((filename (buffer-file-name)))
     (when (and filename
-               (string-match "linux|datera-kmods" filename))
+               (string-match "datera" filename))
       (linux-kernel-style))))
 (add-hook 'c-mode-hook 'linux-kernel-setup)
 
@@ -416,3 +419,15 @@
               (revert-buffer :ignore-auto :noconfirm :preserve-modes))
           (let (kill-buffer-query-functions)
             (kill-buffer buf)))))))
+
+(require 'multi-term)
+(setq multi-term-program "/bin/zsh")
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (auto-complete multi-term xcscope switch-window sml-mode smart-mode-line simple-mode-line magit git auctex))))
