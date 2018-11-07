@@ -53,6 +53,9 @@
  '(modeline-mousable ((t (:background "#a5baf1" :foreground "black"))))
  '(modeline-mousable-minor-mode ((t (:background "#a5baf1" :foreground "#000000"))))
 
+ ;; which-function-mode
+ '(which-func ((t (:foreground "green"))))
+
  ;; Selection
  '(primary-selection ((t (:background "#3B3B3F"))))
  '(isearch ((t (:background "#555555"))))
