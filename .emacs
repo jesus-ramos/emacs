@@ -9,9 +9,8 @@
 ;; M-x package-refresh-contents to update package database
 (require 'package)
 (require 'cl)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 (setq package-enable-at-startup nil)
 (setq url-http-attempt-keepalives nil)
@@ -223,7 +222,7 @@
       (untabify (point-min) (point-max))
     (tabify (point-min) (point-max))))
 ;; Uniform tabify may get you in trouble sometimes
-(add-hook 'before-save-hook 'uniform-tabify)
+;; (add-hook 'before-save-hook 'uniform-tabify)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; switch windows
@@ -337,7 +336,7 @@
 (defun linux-kernel-setup ()
   (let ((filename (buffer-file-name)))
     (when (and filename
-               (string-match "datera" filename))
+               (string-match "datera-kmods\\|linux" filename))
       (linux-kernel-style))))
 (add-hook 'c-mode-hook 'linux-kernel-setup)
 
@@ -430,4 +429,10 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (auto-complete multi-term xcscope switch-window sml-mode smart-mode-line simple-mode-line magit git auctex))))
+    (d-mode auto-complete multi-term xcscope switch-window sml-mode smart-mode-line simple-mode-line magit git auctex))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
