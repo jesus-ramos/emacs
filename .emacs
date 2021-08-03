@@ -110,21 +110,12 @@
 (global-linum-mode t)
 
 ;; org mode
-(defun org-mode-setup ()
-  (turn-on-flyspell))
-(add-hook 'org-mode-hook 'org-mode-setup)
 (setq org-src-fontify-natively t)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)
-   (R . t)
-   (shell . t)
-   (emacs-lisp . t)
-   (clojure . t)
-   (C . t)))
+(setq org-startup-indented t)
 (setq org-todo-keywords
-      '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
-(setq org-todo-keyword-faces '(("CANCELED" . "red")))
+      '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")
+        (sequence "BUG" "RESEARCHING" "CODING" "TESTING" "REVIEW" "PENDING-SUBMIT" "|" "SUBMITTED" "DISCARDED")))
+(setq org-todo-keyword-faces '(("CANCELED" . "red") ("DISCARDED" . "red")))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 
