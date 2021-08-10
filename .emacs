@@ -114,10 +114,13 @@
 (setq org-startup-indented t)
 (setq org-todo-keywords
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")
-        (sequence "BUG" "RESEARCHING" "CODING" "TESTING" "REVIEW" "PENDING-SUBMIT" "|" "SUBMITTED" "DISCARDED")))
+        (sequence "RESEARCHING" "CODING" "TESTING" "REVIEW" "PENDING-SUBMIT" "|" "SUBMITTED" "DISCARDED")))
 (setq org-todo-keyword-faces '(("CANCELED" . "red") ("DISCARDED" . "red")))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(add-hook 'org-mode-hook
+          (lambda ()
+            (set-face-background 'org-todo "brown")))
 
 ;; Disable line numbers in certain buffers
 (defcustom linum-disabled-modes-list
