@@ -110,12 +110,18 @@
 (global-linum-mode t)
 
 ;; org mode
+(defface org-canceled
+  '((t :foreground "red"
+       :weight bold
+       ))
+  "Face for cancelled/discarded org tasks"
+  :group 'org-mode)
 (setq org-src-fontify-natively t)
 (setq org-startup-indented t)
 (setq org-todo-keywords
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")
         (sequence "RESEARCHING" "CODING" "TESTING" "REVIEW" "PENDING-SUBMIT" "|" "SUBMITTED" "DISCARDED")))
-(setq org-todo-keyword-faces '(("CANCELED" . "red") ("DISCARDED" . "red")))
+(setq org-todo-keyword-faces '(("CANCELED" . org-canceled) ("DISCARDED" . org-canceled)))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (add-hook 'org-mode-hook
